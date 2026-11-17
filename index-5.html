@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Useless Button</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background: #f5e6c8;
+    color: #171717;
+    text-align: center;
+    overflow-x: hidden;
+    transition: background 0.4s;
+}
+
+header {
+    padding: 35px 15px 10px;
+}
+
+.tag {
+    font-size: 13px;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: clamp(38px, 8vw, 75px);
+    font-weight: 1000;
+    line-height: 1.05;
+    margin: 20px auto;
+    max-width: 850px;
+    transform: rotate(-2deg);
+}
+
+.highlight {
+    background: #ffdc35;
+    padding: 3px 15px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.subtitle {
+    font-size: 18px;
+    margin: 25px 10px;
+}
+
+.sticker {
+    display: inline-block;
+    background: #ff73b5;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 50%;
+    transform: rotate(4deg);
+}
+
+.game {
+    margin: 35px auto;
+    padding: 20px;
+    max-width: 650px;
+}
+
+#uselessButton {
+    width: 220px;
+    height: 220px;
+    max-width: 75vw;
+    max-height: 75vw;
+    border: 7px solid #171717;
+    border-radius: 50%;
+    background: #ff354f;
+    color: white;
+    font-size: 26px;
+    font-weight: 1000;
+    cursor: pointer;
+    box-shadow: 0 13px 0 #9d1428;
+    transition: transform 0.15s, background 0.2s;
+}
+
+#uselessButton:hover {
+    transform: scale(1.05) rotate(-3deg);
+}
+
+#uselessButton:active {
+    transform: translateY(9px);
+    box-shadow: 0 4px 0 #9d1428;
+}
+
+#message {
+    min-height: 65px;
+    margin: 35px 0 15px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+#counter {
+    display: inline-block;
+    background: white;
+    border: 3px solid black;
+    padding: 12px 22px;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.controls {
+    margin: 25px 0;
+}
+
+.small-button {
+    padding: 12px 18px;
+    margin: 5px;
+    border: 2px solid black;
+    background: #7be7d0;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+footer {
+    padding: 25px 10px;
+    font-size: 14px;
+}
+
+.doodle {
+    font-size: 50px;
+    margin: 10px;
+}
+
+#movingArea {
+    position: relative;
+    min-height: 250px;
+}
+
+#uselessButton.runaway {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 40px;
+    }
+
+    #uselessButton {
+        width: 180px;
+        height: 180px;
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="tag">PRESENTING THE MOST POINTLESS INVENTION</div>
+
+    <h1>
+        THE <span class="highlight">USELESS</span><br>
+        <span style="color:#e62982">BUTTON!</span>
+    </h1>
+
+    <p class="subtitle">
+        A button that solves absolutely nothing.
+    </p>
+
+    <span class="sticker">100% POINTLESS</span>
+</header>
+
+<main class="game">
+
+    <div class="doodle">🤡 🦆 🤷</div>
+
+    <div id="movingArea">
+        <button id="uselessButton" onclick="clickButton()">
+            DO NOT<br>CLICK!
+        </button>
+    </div>
+
+    <div id="message" aria-live="polite">
+        Don't click it. Seriously.
+    </div>
+
+    <div id="counter">
+        Pointless clicks: 0
+    </div>
+
+    <div class="controls">
+        <button class="small-button" onclick="changeColor()">
+            🎨 Random Color
+        </button>
+
+        <button class="small-button" onclick="toggleRunaway()">
+            🏃 Runaway Mode
+        </button>
+
+        <button class="small-button" onclick="resetGame()">
+            🔄 Reset Nothing
+        </button>
+    </div>
+
+</main>
+
+<footer>
+    Made with 0% purpose and 100% confusion.<br>
+    Because useless can be brilliant!
+</footer>
+
+<script>
+let clicks = 0;
+let runaway = false;
+
+const button = document.getElementById("uselessButton");
+const message = document.getElementById("message");
+const counter = document.getElementById("counter");
+
+const messages = [
+    "Congratulations! Nothing happened. 🎉",
+    "Why are you still clicking this?",
+    "Error 404: Purpose not found.",
+    "Your productivity has left the chat. 💀",
+    "Somewhere, a potato is impressed. 🥔",
+    "Achievement unlocked: Professional time waster!",
+    "This button needs a vacation. 🏖️",
+    "Breaking news: Still completely useless!",
+    "You clicked it. Your life has changed by 0%.",
+    "Please stop. The button is getting nervous.",
+    "Scientists are confused by your dedication.",
+    "You could have learned something. But no.",
+    "Loading purpose... purpose not found!",
+    "WOW! You have pressed a button!",
+    "Your reward is absolutely nothing. 🏆"
+];
+
+function clickButton() {
+    clicks++;
+
+    const randomIndex =
+        Math.floor(Math.random() * messages.length);
+
+    message.textContent = messages[randomIndex];
+    counter.textContent = "Pointless clicks: " + clicks;
+
+    button.style.backgroundColor =
+        "#" + Math.floor(Math.random() * 16777215)
+        .toString(16).padStart(6, "0");
+
+    if (clicks % 10 === 0) {
+        message.textContent =
+            "🎊 " + clicks + " clicks! You have achieved NOTHING!";
+    }
+
+    if (runaway) {
+        moveButton();
+    }
+}
+
+function changeColor() {
+    document.body.style.backgroundColor =
+        "#" + Math.floor(Math.random() * 16777215)
+        .toString(16).padStart(6, "0");
+
+    message.textContent =
+        "New background unlocked. Still useless.";
+}
+
+function toggleRunaway() {
+    runaway = !runaway;
+
+    if (runaway) {
+        button.classList.add("runaway");
+        button.textContent = "CATCH ME!";
+        message.textContent = "Try to catch the button!";
+        moveButton();
+    } else {
+        button.classList.remove("runaway");
+        button.textContent = "DO NOT CLICK!";
+        button.style.left = "";
+        button.style.top = "";
+        message.textContent = "The button has surrendered.";
+    }
+}
+
+function moveButton() {
+    if (!runaway) return;
+
+    const area = document.getElementById("movingArea");
+
+    const maxX = Math.max(0, area.clientWidth - button.offsetWidth);
+    const maxY = Math.max(0, area.clientHeight - button.offsetHeight);
+
+    button.style.left = Math.random() * maxX + "px";
+    button.style.top = Math.random() * maxY + "px";
+    button.style.transform = "none";
+}
+
+function resetGame() {
+    clicks = 0;
+    runaway = false;
+
+    button.classList.remove("runaway");
+    button.textContent = "DO NOT\nCLICK!";
+    button.style.left = "";
+    button.style.top = "";
+    button.style.transform = "";
+    button.style.backgroundColor = "#ff354f";
+
+    counter.textContent = "Pointless clicks: 0";
+    message.textContent = "Everything is back to being useless.";
+
+    document.body.style.backgroundColor = "#f5e6c8";
+}
+</script>
+
+</body>
+</html>
